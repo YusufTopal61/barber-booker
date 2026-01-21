@@ -76,6 +76,30 @@ const Booking = () => {
         .single();
 
       if (error) throw error;
+
+      // Send confirmation emails
+      try {
+        const { nl } = await import("date-fns/locale");
+        const { format } = await import("date-fns");
+        
+        await supabase.functions.invoke("send-booking-confirmation", {
+          body: {
+            customerName: data.customer.name,
+            customerEmail: data.customer.email,
+            serviceName: service.name,
+            servicePrice: service.price,
+            serviceDuration: service.duration_minutes,
+            appointmentDate: format(data.startDateTime, "EEEE d MMMM yyyy", { locale: nl }),
+            appointmentTime: format(data.startDateTime, "HH:mm"),
+            notes: data.customer.notes || null,
+            type: "confirmation",
+          },
+        });
+      } catch (emailError) {
+        console.error("Failed to send confirmation email:", emailError);
+        // Don't fail the booking if email fails
+      }
+
       return appointment;
     },
     onSuccess: (appointment) => {
