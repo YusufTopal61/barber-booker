@@ -8,6 +8,7 @@ import Services from "./pages/Services";
 import Booking from "./pages/Booking";
 import BookingConfirmation from "./pages/BookingConfirmation";
 import AdminLogin from "./pages/admin/Login";
+import AdminSetup from "./pages/admin/Setup";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminAppointments from "./pages/admin/Appointments";
 import AdminServices from "./pages/admin/Services";
@@ -31,6 +32,7 @@ const App = () => (
           
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
+          <Route path="/admin/setup" element={<AdminSetup />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/appointments" element={<AdminAppointments />} />
           <Route path="/admin/services" element={<AdminServices />} />

@@ -53,13 +53,36 @@ const AdminAppointments = () => {
 
   // Cancel appointment mutation
   const cancelAppointment = useMutation({
-    mutationFn: async (appointmentId: string) => {
+    mutationFn: async (appointment: any) => {
       const { error } = await supabase
         .from("appointments")
         .update({ status: "cancelled" })
-        .eq("id", appointmentId);
+        .eq("id", appointment.id);
 
       if (error) throw error;
+
+      // Send cancellation emails
+      try {
+        await supabase.functions.invoke("send-booking-confirmation", {
+          body: {
+            customerName: appointment.customer_name,
+            customerEmail: appointment.customer_email,
+            serviceName: appointment.services?.name,
+            servicePrice: appointment.services?.price,
+            serviceDuration: appointment.services?.duration_minutes,
+            appointmentDate: format(
+              parseISO(appointment.start_datetime),
+              "EEEE d MMMM yyyy",
+              { locale: nl }
+            ),
+            appointmentTime: format(parseISO(appointment.start_datetime), "HH:mm"),
+            notes: appointment.notes,
+            type: "cancellation",
+          },
+        });
+      } catch (emailError) {
+        console.error("Failed to send cancellation email:", emailError);
+      }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["admin-appointments"] });
@@ -257,7 +280,7 @@ const AdminAppointments = () => {
               variant="destructive"
               onClick={() =>
                 selectedAppointment &&
-                cancelAppointment.mutate(selectedAppointment.id)
+                cancelAppointment.mutate(selectedAppointment)
               }
               disabled={cancelAppointment.isPending}
             >
