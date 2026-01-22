@@ -1,7 +1,17 @@
 import { useState, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { format, addDays, startOfDay, isSameDay, setHours, setMinutes, isAfter, isBefore, parseISO } from "date-fns";
+import {
+  format,
+  addDays,
+  startOfDay,
+  isSameDay,
+  setHours,
+  setMinutes,
+  isAfter,
+  isBefore,
+  parseISO,
+} from "date-fns";
 import { nl } from "date-fns/locale";
 import { ChevronLeft, ChevronRight, Clock, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -69,20 +79,21 @@ const DateTimeSelection = ({
   });
 
   // Get existing appointments for the displayed dates
-  const { data: existingAppointments, isLoading: loadingAppointments } = useQuery({
-    queryKey: ["appointments-check", dates[0], dates[6]],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from("appointments")
-        .select("start_datetime, end_datetime")
-        .gte("start_datetime", dates[0].toISOString())
-        .lte("start_datetime", addDays(dates[6], 1).toISOString())
-        .neq("status", "cancelled");
-      if (error) throw error;
-      return data;
-    },
-    enabled: dates.length > 0,
-  });
+  const { data: existingAppointments, isLoading: loadingAppointments } =
+    useQuery({
+      queryKey: ["appointments-check", dates[0], dates[6]],
+      queryFn: async () => {
+        const { data, error } = await supabase
+          .from("appointments")
+          .select("start_datetime, end_datetime")
+          .gte("start_datetime", dates[0].toISOString())
+          .lte("start_datetime", addDays(dates[6], 1).toISOString())
+          .neq("status", "cancelled");
+        if (error) throw error;
+        return data;
+      },
+      enabled: dates.length > 0,
+    });
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(
     selectedDateTime ? startOfDay(selectedDateTime) : null
@@ -131,7 +142,8 @@ const DateTimeSelection = ({
             (isAfter(currentTime, aptStart) && isBefore(currentTime, aptEnd)) ||
             (isAfter(slotEnd, aptStart) && isBefore(slotEnd, aptEnd)) ||
             (isBefore(currentTime, aptStart) && isAfter(slotEnd, aptEnd)) ||
-            isSameDay(currentTime, aptStart) && currentTime.getTime() === aptStart.getTime()
+            (isSameDay(currentTime, aptStart) &&
+              currentTime.getTime() === aptStart.getTime())
           );
         });
 
@@ -166,13 +178,9 @@ const DateTimeSelection = ({
 
   return (
     <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2">
-          Kies Datum & Tijd
-        </h2>
-        <p className="text-muted-foreground">
-          Selecteer een beschikbaar moment
-        </p>
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">Kies datum & tijd</h2>
+        <p className="text-muted-foreground">Selecteer een beschikbaar moment</p>
       </div>
 
       {/* Week Navigation */}
@@ -185,8 +193,8 @@ const DateTimeSelection = ({
         >
           <ChevronLeft className="w-5 h-5" />
         </Button>
-        <span className="font-medium">
-          {format(dates[0], "d MMM", { locale: nl })} -{" "}
+        <span className="text-sm font-medium">
+          {format(dates[0], "d MMM", { locale: nl })} —{" "}
           {format(dates[6], "d MMM yyyy", { locale: nl })}
         </span>
         <Button
@@ -211,18 +219,18 @@ const DateTimeSelection = ({
               key={date.toISOString()}
               onClick={() => isAvailable && setSelectedDate(date)}
               disabled={!isAvailable || isPast}
-              className={`p-3 rounded-lg text-center transition-all ${
+              className={`p-3 rounded-xl text-center transition-all border ${
                 isSelected
-                  ? "bg-primary text-primary-foreground"
+                  ? "bg-foreground text-background border-foreground"
                   : isAvailable
-                  ? "bg-card border border-border hover:border-primary"
-                  : "bg-muted/50 text-muted-foreground cursor-not-allowed"
+                  ? "bg-transparent border-border hover:border-foreground/30"
+                  : "bg-transparent border-transparent text-muted-foreground/50 cursor-not-allowed"
               }`}
             >
-              <div className="text-xs uppercase mb-1">
+              <div className="text-xs uppercase mb-1 font-medium">
                 {format(date, "EEE", { locale: nl })}
               </div>
-              <div className="text-lg font-semibold">{format(date, "d")}</div>
+              <div className="text-lg font-medium">{format(date, "d")}</div>
             </button>
           );
         })}
@@ -231,18 +239,18 @@ const DateTimeSelection = ({
       {/* Time Slots */}
       {selectedDate && (
         <div className="mt-8">
-          <h3 className="font-semibold mb-4 flex items-center gap-2">
-            <Clock className="w-5 h-5 text-primary" />
+          <h3 className="text-sm font-medium mb-4 flex items-center gap-2 text-muted-foreground">
+            <Clock className="w-4 h-4" />
             Beschikbare tijden op{" "}
             {format(selectedDate, "EEEE d MMMM", { locale: nl })}
           </h3>
 
           {loadingAppointments ? (
             <div className="flex justify-center py-8">
-              <Loader2 className="w-6 h-6 animate-spin text-primary" />
+              <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
             </div>
           ) : timeSlots.length > 0 ? (
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-2">
+            <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 gap-2">
               {timeSlots.map((slot) => {
                 const isSelected =
                   selectedDateTime &&
@@ -251,10 +259,10 @@ const DateTimeSelection = ({
                   <button
                     key={slot.toISOString()}
                     onClick={() => onSelect(slot)}
-                    className={`p-3 rounded-lg text-center font-medium transition-all ${
+                    className={`p-3 rounded-lg text-center text-sm font-medium transition-all border ${
                       isSelected
-                        ? "bg-primary text-primary-foreground"
-                        : "bg-card border border-border hover:border-primary hover:bg-primary/5"
+                        ? "bg-foreground text-background border-foreground"
+                        : "bg-transparent border-border hover:border-foreground/30"
                     }`}
                   >
                     {format(slot, "HH:mm")}

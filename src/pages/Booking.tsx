@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,18 +7,20 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import ServiceSelection from "@/components/booking/ServiceSelection";
 import DateTimeSelection from "@/components/booking/DateTimeSelection";
-import CustomerForm, { CustomerFormData } from "@/components/booking/CustomerForm";
+import CustomerForm, {
+  CustomerFormData,
+} from "@/components/booking/CustomerForm";
 import BookingSummary from "@/components/booking/BookingSummary";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, Check, Loader2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { toast } from "sonner";
 
 type BookingStep = "service" | "datetime" | "details";
 
-const steps: { key: BookingStep; label: string }[] = [
-  { key: "service", label: "Service" },
-  { key: "datetime", label: "Datum & Tijd" },
-  { key: "details", label: "Gegevens" },
+const steps: { key: BookingStep; label: string; number: string }[] = [
+  { key: "service", label: "Service", number: "01" },
+  { key: "datetime", label: "Datum & Tijd", number: "02" },
+  { key: "details", label: "Gegevens", number: "03" },
 ];
 
 const Booking = () => {
@@ -30,7 +32,9 @@ const Booking = () => {
     searchParams.get("service")
   );
   const [selectedDateTime, setSelectedDateTime] = useState<Date | null>(null);
-  const [customerData, setCustomerData] = useState<CustomerFormData | null>(null);
+  const [customerData, setCustomerData] = useState<CustomerFormData | null>(
+    null
+  );
 
   // Fetch selected service details
   const { data: selectedService } = useQuery({
@@ -58,7 +62,10 @@ const Booking = () => {
       const service = selectedService;
       if (!service) throw new Error("Service not found");
 
-      const endDateTime = addMinutes(data.startDateTime, service.duration_minutes);
+      const endDateTime = addMinutes(
+        data.startDateTime,
+        service.duration_minutes
+      );
 
       const { data: appointment, error } = await supabase
         .from("appointments")
@@ -81,7 +88,7 @@ const Booking = () => {
       try {
         const { nl } = await import("date-fns/locale");
         const { format } = await import("date-fns");
-        
+
         await supabase.functions.invoke("send-booking-confirmation", {
           body: {
             customerName: data.customer.name,
@@ -89,7 +96,9 @@ const Booking = () => {
             serviceName: service.name,
             servicePrice: service.price,
             serviceDuration: service.duration_minutes,
-            appointmentDate: format(data.startDateTime, "EEEE d MMMM yyyy", { locale: nl }),
+            appointmentDate: format(data.startDateTime, "EEEE d MMMM yyyy", {
+              locale: nl,
+            }),
             appointmentTime: format(data.startDateTime, "HH:mm"),
             notes: data.customer.notes || null,
             type: "confirmation",
@@ -97,7 +106,6 @@ const Booking = () => {
         });
       } catch (emailError) {
         console.error("Failed to send confirmation email:", emailError);
-        // Don't fail the booking if email fails
       }
 
       return appointment;
@@ -163,10 +171,10 @@ const Booking = () => {
   return (
     <div className="min-h-screen bg-background">
       <Header />
-      <main className="pt-20 pb-16">
-        <div className="container mx-auto px-4 py-8">
+      <main className="pt-16 pb-16">
+        <div className="container-narrow py-12">
           {/* Progress Steps */}
-          <div className="max-w-3xl mx-auto mb-12">
+          <div className="max-w-2xl mx-auto mb-16">
             <div className="flex items-center justify-between">
               {steps.map((step, index) => {
                 const isCompleted = index < currentStepIndex;
@@ -176,23 +184,25 @@ const Booking = () => {
                   <div key={step.key} className="flex items-center flex-1">
                     <div className="flex flex-col items-center">
                       <div
-                        className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-colors ${
+                        className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-medium transition-colors border ${
                           isCompleted
-                            ? "bg-primary text-primary-foreground"
+                            ? "bg-foreground text-background border-foreground"
                             : isCurrent
-                            ? "bg-primary text-primary-foreground"
-                            : "bg-secondary text-muted-foreground"
+                            ? "bg-foreground text-background border-foreground"
+                            : "bg-transparent text-muted-foreground border-border"
                         }`}
                       >
                         {isCompleted ? (
-                          <Check className="w-5 h-5" />
+                          <Check className="w-4 h-4" />
                         ) : (
-                          index + 1
+                          step.number
                         )}
                       </div>
                       <span
-                        className={`mt-2 text-sm font-medium ${
-                          isCurrent ? "text-foreground" : "text-muted-foreground"
+                        className={`mt-3 text-sm font-medium ${
+                          isCurrent
+                            ? "text-foreground"
+                            : "text-muted-foreground"
                         }`}
                       >
                         {step.label}
@@ -200,8 +210,8 @@ const Booking = () => {
                     </div>
                     {index < steps.length - 1 && (
                       <div
-                        className={`flex-1 h-0.5 mx-4 ${
-                          isCompleted ? "bg-primary" : "bg-border"
+                        className={`flex-1 h-px mx-4 ${
+                          isCompleted ? "bg-foreground" : "bg-border"
                         }`}
                       />
                     )}
@@ -212,9 +222,9 @@ const Booking = () => {
           </div>
 
           {/* Main Content */}
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-12">
             <div className="lg:col-span-2">
-              <div className="bg-card border border-border rounded-lg p-6 md:p-8">
+              <div className="card-minimal">
                 {currentStep === "service" && (
                   <ServiceSelection
                     selectedServiceId={selectedServiceId}
@@ -249,10 +259,7 @@ const Booking = () => {
                       <ArrowLeft className="w-4 h-4 mr-2" />
                       Vorige
                     </Button>
-                    <Button
-                      onClick={goToNextStep}
-                      disabled={!canProceed()}
-                    >
+                    <Button onClick={goToNextStep} disabled={!canProceed()}>
                       Volgende
                       <ArrowRight className="w-4 h-4 ml-2" />
                     </Button>

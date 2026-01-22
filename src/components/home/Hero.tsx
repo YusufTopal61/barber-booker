@@ -1,93 +1,62 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Scissors, Star, Clock, Award } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background with overlay */}
-      <div className="absolute inset-0 bg-gradient-dark">
-        <div
-          className="absolute inset-0 opacity-20"
-          style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23d4a851' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}
-        />
-      </div>
-
-      {/* Content */}
-      <div className="container mx-auto px-4 relative z-10">
+    <section className="min-h-[90vh] flex items-center justify-center pt-20">
+      <div className="container-narrow">
         <div className="max-w-3xl mx-auto text-center stagger-children">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-secondary/50 backdrop-blur-sm border border-border rounded-full px-4 py-2 mb-8">
-            <Award className="w-4 h-4 text-primary" />
-            <span className="text-sm text-muted-foreground">
-              Beste Barbershop van Amsterdam 2024
-            </span>
-          </div>
+          {/* Section Number */}
+          <span className="section-number">{"{01}"} — Welkom</span>
 
           {/* Main Heading */}
-          <h1 className="font-serif text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            Vakmanschap &{" "}
-            <span className="text-gradient-gold">Stijl</span>
+          <h1 className="mt-6 mb-8">
+            Premium Barbering
+            <br />
+            <span className="text-muted-foreground">voor de Moderne Man</span>
           </h1>
 
           {/* Subheading */}
-          <p className="text-xl md:text-2xl text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
-            Ervaar de perfecte combinatie van traditioneel barberen en moderne
-            technieken. Jouw beste look begint hier.
+          <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-xl mx-auto leading-relaxed">
+            Ervaar vakmanschap en stijl. Traditioneel barberen gecombineerd met
+            moderne technieken voor jouw perfecte look.
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Button variant="hero" size="xl" asChild>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button size="lg" asChild>
               <Link to="/booking" className="flex items-center gap-2">
-                <Scissors className="w-5 h-5" />
-                Boek Je Afspraak
+                Boek afspraak
+                <ArrowRight className="w-4 h-4" />
               </Link>
             </Button>
-            <Button variant="outline" size="xl" asChild>
-              <Link to="/services">Bekijk Diensten</Link>
+            <Button variant="outline" size="lg" asChild>
+              <Link to="/services">Bekijk diensten</Link>
             </Button>
           </div>
 
           {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center gap-8 md:gap-12">
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
-                <Star className="w-6 h-6 text-primary" />
+          <div className="mt-20 pt-12 border-t border-border">
+            <div className="flex flex-wrap justify-center gap-12 md:gap-16 text-center">
+              <div>
+                <p className="text-3xl font-semibold text-foreground">4.9</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Google Reviews
+                </p>
               </div>
-              <div className="text-left">
-                <p className="font-semibold text-foreground">4.9/5</p>
-                <p className="text-sm text-muted-foreground">500+ Reviews</p>
+              <div>
+                <p className="text-3xl font-semibold text-foreground">10+</p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  Jaar Ervaring
+                </p>
               </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
-                <Clock className="w-6 h-6 text-primary" />
-              </div>
-              <div className="text-left">
-                <p className="font-semibold text-foreground">10+ Jaar</p>
-                <p className="text-sm text-muted-foreground">Ervaring</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-full bg-secondary flex items-center justify-center">
-                <Scissors className="w-6 h-6 text-primary" />
-              </div>
-              <div className="text-left">
-                <p className="font-semibold text-foreground">15.000+</p>
-                <p className="text-sm text-muted-foreground">Knipbeurten</p>
+              <div>
+                <p className="text-3xl font-semibold text-foreground">15K+</p>
+                <p className="text-sm text-muted-foreground mt-1">Knipbeurten</p>
               </div>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
-        <div className="w-6 h-10 rounded-full border-2 border-primary/30 flex items-start justify-center pt-2">
-          <div className="w-1.5 h-3 bg-primary rounded-full animate-pulse" />
         </div>
       </div>
     </section>
