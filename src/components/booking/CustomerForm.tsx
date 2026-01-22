@@ -12,7 +12,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { User, Mail, Phone, MessageSquare } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const customerSchema = z.object({
   name: z
@@ -60,30 +60,25 @@ const CustomerForm = ({
 
   return (
     <div className="space-y-6">
-      <div className="text-center mb-8">
-        <h2 className="font-serif text-2xl md:text-3xl font-bold mb-2">
-          Jouw Gegevens
-        </h2>
+      <div className="mb-8">
+        <h2 className="text-2xl font-semibold mb-2">Jouw gegevens</h2>
         <p className="text-muted-foreground">
           Vul je contactgegevens in om de boeking te voltooien
         </p>
       </div>
 
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
           <FormField
             control={form.control}
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex items-center gap-2">
-                  <User className="w-4 h-4 text-primary" />
-                  Naam *
-                </FormLabel>
+                <FormLabel className="text-sm font-medium">Naam *</FormLabel>
                 <FormControl>
                   <Input
                     placeholder="Je volledige naam"
-                    className="bg-card border-border"
+                    className="h-12 rounded-lg border-border bg-transparent"
                     {...field}
                   />
                 </FormControl>
@@ -97,15 +92,14 @@ const CustomerForm = ({
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-primary" />
+                <FormLabel className="text-sm font-medium">
                   E-mailadres *
                 </FormLabel>
                 <FormControl>
                   <Input
                     type="email"
                     placeholder="je@email.nl"
-                    className="bg-card border-border"
+                    className="h-12 rounded-lg border-border bg-transparent"
                     {...field}
                   />
                 </FormControl>
@@ -119,15 +113,14 @@ const CustomerForm = ({
             name="phone"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex items-center gap-2">
-                  <Phone className="w-4 h-4 text-primary" />
+                <FormLabel className="text-sm font-medium">
                   Telefoonnummer (optioneel)
                 </FormLabel>
                 <FormControl>
                   <Input
                     type="tel"
                     placeholder="06 12345678"
-                    className="bg-card border-border"
+                    className="h-12 rounded-lg border-border bg-transparent"
                     {...field}
                   />
                 </FormControl>
@@ -141,14 +134,13 @@ const CustomerForm = ({
             name="notes"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4 text-primary" />
+                <FormLabel className="text-sm font-medium">
                   Opmerkingen (optioneel)
                 </FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="Bijv. specifieke wensen of vragen..."
-                    className="bg-card border-border min-h-[100px]"
+                    className="min-h-[100px] rounded-lg border-border bg-transparent resize-none"
                     {...field}
                   />
                 </FormControl>
@@ -159,12 +151,18 @@ const CustomerForm = ({
 
           <Button
             type="submit"
-            variant="hero"
-            size="xl"
+            size="lg"
             className="w-full"
             disabled={isSubmitting}
           >
-            {isSubmitting ? "Bezig met boeken..." : "Bevestig Afspraak"}
+            {isSubmitting ? (
+              "Bezig met boeken..."
+            ) : (
+              <>
+                Bevestig afspraak
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </>
+            )}
           </Button>
         </form>
       </Form>
