@@ -7,7 +7,7 @@ const CTA = () => {
     <section className="section border-t border-border">
       <div className="container-narrow">
         <div className="max-w-2xl mx-auto text-center">
-          <span className="section-number">{"{04}"} — Afspraak</span>
+          <span className="section-number">Afspraak</span>
           <h2 className="mt-6 mb-6">Klaar voor jouw nieuwe look?</h2>
           <p className="text-lg text-muted-foreground mb-10">
             Boek vandaag nog je afspraak en ervaar het verschil van premium

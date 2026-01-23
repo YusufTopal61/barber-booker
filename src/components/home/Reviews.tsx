@@ -30,7 +30,7 @@ const Reviews = () => {
       <div className="container-narrow">
         {/* Section Header */}
         <div className="section-header">
-          <span className="section-number">{"{03}"} — Reviews</span>
+          <span className="section-number">Reviews</span>
           <h2>Wat klanten zeggen</h2>
           <p>
             Ontdek waarom honderden klanten ons vertrouwen voor hun verzorging.

@@ -25,7 +25,7 @@ const ServicesPreview = () => {
       <div className="container-narrow">
         {/* Section Header */}
         <div className="section-header">
-          <span className="section-number">{"{02}"} — Diensten</span>
+          <span className="section-number">Diensten</span>
           <h2>Onze Services</h2>
           <p>
             Van klassieke knipbeurten tot complete verzorging. Premium services
