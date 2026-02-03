@@ -29,7 +29,7 @@ const Services = () => {
         <section className="section">
           <div className="container-narrow">
             <div className="max-w-2xl">
-              <span className="section-number">{"{01}"} — Diensten</span>
+              <span className="section-number">Diensten</span>
               <h1 className="mt-6 mb-6">Onze Services</h1>
               <p className="text-lg text-muted-foreground">
                 Van klassieke knipbeurten tot complete verzorgingspakketten.
