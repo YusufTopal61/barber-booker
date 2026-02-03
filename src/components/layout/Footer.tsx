@@ -60,7 +60,7 @@ const Footer = () => {
         <div className="divider my-12" />
 
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} BarberShop</p>
+          <p>© {new Date().getFullYear()} Kapper De Bui</p>
           <div className="flex gap-6">
             <Link
               to="/admin/login"

@@ -19,8 +19,7 @@ const Hero = () => {
 
           {/* Subheading */}
           <p className="text-lg md:text-xl text-muted-foreground mb-12 max-w-xl mx-auto leading-relaxed">
-            Ervaar vakmanschap en stijl. Traditioneel barberen gecombineerd met
-            moderne technieken voor jouw perfecte look.
+            Ervaar vakmanschap in een leuke sfeer. Traditioneel knippen gecombineerd met het moderne faden.
           </p>
 
           {/* CTAs */}
@@ -46,13 +45,13 @@ const Hero = () => {
                 </p>
               </div>
               <div>
-                <p className="text-3xl font-semibold text-foreground">10+</p>
+                <p className="text-3xl font-semibold text-foreground">1</p>
                 <p className="text-sm text-muted-foreground mt-1">
                   Jaar Ervaring
                 </p>
               </div>
               <div>
-                <p className="text-3xl font-semibold text-foreground">15K+</p>
+                <p className="text-3xl font-semibold text-foreground">50+</p>
                 <p className="text-sm text-muted-foreground mt-1">Knipbeurten</p>
               </div>
             </div>
