@@ -8,7 +8,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="md:col-span-2">
             <Link to="/" className="text-xl font-semibold text-foreground">
-              BarberShop
+              Kapper De Bui
             </Link>
             <p className="text-muted-foreground text-sm mt-4 max-w-sm leading-relaxed">
               Traditioneel vakmanschap ontmoet moderne stijl. Al meer dan 10 jaar
