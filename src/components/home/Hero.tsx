@@ -8,13 +8,13 @@ const Hero = () => {
       <div className="container-narrow">
         <div className="max-w-3xl mx-auto text-center stagger-children">
           {/* Section Number */}
-          <span className="section-number">Welkom</span>
+          <span className="section-number">Welkom bij</span>
 
           {/* Main Heading */}
           <h1 className="mt-6 mb-8">
-            Premium Barbering
+            Kapper De Bui
             <br />
-            <span className="text-muted-foreground">voor de Moderne Man</span>
+            <span className="text-muted-foreground"></span>
           </h1>
 
           {/* Subheading */}
