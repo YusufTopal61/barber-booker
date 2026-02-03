@@ -90,7 +90,7 @@ const Services = () => {
         <section className="section border-t border-border">
           <div className="container-narrow">
             <div className="section-header text-center mx-auto">
-              <span className="section-number">{"{02}"} — Ervaring</span>
+              <span className="section-number">Ervaring</span>
               <h2 className="mx-auto">Wat je kunt verwachten</h2>
             </div>
 
